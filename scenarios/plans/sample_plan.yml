@@ -1,0 +1,12 @@
+name: "Standard Load Test - 2 Users"
+
+# Execution mode: 'sequential' or 'parallel'
+mode: "sequential"
+
+# List of session files to run, relative to this file's location.
+session_files:
+  - "simple_mikrotik_session.yml"
+  - "simple_cisco_session.yml"
+  # You could even run the same session multiple times to simulate multiple users
+  # with the same profile but different credentials (if you created separate files).
+  # - "hd_video_user_2.yml"

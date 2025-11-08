@@ -1,0 +1,15 @@
+[project]
+name = "radkit"
+version = "1.0.0"
+description = "Radius Session Kit for IBSng radius server related testing and diagnostics"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "black>=25.9.0",
+    "isort>=7.0.0",
+    "pydantic>=2.11.7",
+    "pyrad>=2.4",
+    "pyyaml>=6.0.3",
+    "rich>=14.2.0",
+    "typer>=0.20.0",
+]

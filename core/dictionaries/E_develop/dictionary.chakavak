@@ -1,0 +1,10 @@
+VENDOR		Chakavak				999
+
+#
+#	Standard attribute
+#
+BEGIN-VENDOR	Chakavak
+
+ATTRIBUTE	Chakavak-AVPair				1	string
+
+END-VENDOR	Chakavak

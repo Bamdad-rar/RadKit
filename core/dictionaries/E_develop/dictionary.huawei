@@ -1,0 +1,145 @@
+# -*- text -*-
+# Copyright (C) 2011 The FreeRADIUS Server project and contributors Huawei
+##############################################################################
+#
+#	Dictionary for Huawei.  See also dictionary.h3c
+#
+#	$Id$
+#
+##############################################################################
+
+VENDOR		Huawei				2011
+
+BEGIN-VENDOR	Huawei
+
+ATTRIBUTE	Huawei-Input-Burst-Size			1	integer Huawei
+ATTRIBUTE	Huawei-Input-Average-Rate		2	integer Huawei
+ATTRIBUTE	Huawei-Input-Peak-Rate			3	integer Huawei
+ATTRIBUTE	Huawei-Output-Burst-Size		4	integer Huawei
+ATTRIBUTE	Huawei-Output-Average-Rate		5	integer Huawei
+ATTRIBUTE	Huawei-Output-Peak-Rate			6	integer Huawei
+ATTRIBUTE	Huawei-In-Kb-Before-T-Switch		7	integer Huawei
+ATTRIBUTE	Huawei-Out-Kb-Before-T-Switch		8	integer Huawei
+ATTRIBUTE	Huawei-In-Pkt-Before-T-Switch		9	integer Huawei
+ATTRIBUTE	Huawei-Out-Pkt-Before-T-Switch		10	integer Huawei
+ATTRIBUTE	Huawei-In-Kb-After-T-Switch		11	integer Huawei
+ATTRIBUTE	Huawei-Out-Kb-After-T-Switch		12	integer Huawei
+ATTRIBUTE	Huawei-In-Pkt-After-T-Switch		13	integer Huawei
+ATTRIBUTE	Huawei-Out-Pkt-After-T-Switch		14	integer Huawei
+ATTRIBUTE	Huawei-Remanent-Volume			15	integer Huawei
+ATTRIBUTE	Huawei-Tariff-Switch-Interval		16	integer Huawei
+ATTRIBUTE	Huawei-ISP-ID				17	string Huawei
+ATTRIBUTE	Huawei-Max-Users-Per-Logic-Port		18	integer Huawei
+ATTRIBUTE	Huawei-Command				20	integer Huawei
+ATTRIBUTE	Huawei-Priority				22	integer Huawei
+ATTRIBUTE	Huawei-Control-Identifier		24	integer Huawei
+ATTRIBUTE	Huawei-Result-Code			25	integer Huawei
+ATTRIBUTE	Huawei-Connect-ID			26	integer Huawei
+ATTRIBUTE	Huawei-PortalURL			27	string Huawei
+ATTRIBUTE	Huawei-FTP-Directory			28	string Huawei
+ATTRIBUTE	Huawei-Exec-Privilege			29	integer Huawei
+ATTRIBUTE	Huawei-IP-Address			30	integer Huawei
+ATTRIBUTE	Huawei-Qos-Profile-Name			31	string Huawei
+ATTRIBUTE	Huawei-Destnation-IP-Addr		39	string Huawei
+ATTRIBUTE	Huawei-Destnation-Volume		40	string Huawei
+ATTRIBUTE	Huawei-Startup-Stamp			59	integer Huawei
+ATTRIBUTE	Huawei-IPHost-Addr			60	string Huawei
+ATTRIBUTE	Huawei-VT-Name				64	integer Huawei
+ATTRIBUTE	Huawei-PPP-NCP-Type			70	integer Huawei
+ATTRIBUTE	Huawei-VSI-Name				71	string Huawei
+ATTRIBUTE	Huawei-Subnet-Mask			72	ipaddr Huawei
+ATTRIBUTE	Huawei-Gateway-Address			73	ipaddr Huawei
+ATTRIBUTE	Huawei-Lease-Time			74	integer Huawei
+ATTRIBUTE	Huawei-Primary-WINS			75	ipaddr Huawei
+ATTRIBUTE	Huawei-Secondary-WINS			76	ipaddr Huawei
+ATTRIBUTE	Huawei-Input-Peak-Burst-Size		77	integer Huawei
+ATTRIBUTE	Huawei-Output-Peak-Burst-Size		78	integer Huawei
+ATTRIBUTE	Huawei-Reduced-CIR			79	integer Huawei
+ATTRIBUTE	Huawei-Tunnel-Session-Limit		80	integer Huawei
+ATTRIBUTE	Huawei-Zone-Name			81	string Huawei
+ATTRIBUTE	Huawei-Data-Filter			82	string Huawei
+ATTRIBUTE	Huawei-Access-Service			83	string Huawei
+ATTRIBUTE	Huawei-HW-Accounting-Level		84	integer Huawei
+ATTRIBUTE	Huawei-HW-Portal-Mode			85	integer Huawei
+ATTRIBUTE	Huawei-HW-DPI-Policy-Name		86	string Huawei
+ATTRIBUTE	huawei-Policy-Route			87	ipaddr Huawei
+ATTRIBUTE	Huawei-Framed-Pool			88	string Huawei
+ATTRIBUTE	Huawei-HW-L2TP-Terminate-Cause		89	string Huawei
+ATTRIBUTE	Huawei-HW-Multi-Account-Mode		90	integer Huawei
+ATTRIBUTE	Huawei-Queue-Profile			91	string Huawei
+ATTRIBUTE	Huawei-Layer4-Session-Limit		92	integer Huawei
+ATTRIBUTE	Huawei-Multicast-Profile		93	string Huawei
+ATTRIBUTE	Huawei-VPN-Instance			94	string Huawei
+ATTRIBUTE	Huawei-Policy-Name			95	string Huawei
+ATTRIBUTE	Huawei-Tunnel-Group-Name		96	string Huawei
+ATTRIBUTE	Huawei-Multicast-Source-Group		97	string Huawei
+ATTRIBUTE	Huawei-Multicast-Receive-Group		98	ipaddr Huawei
+ATTRIBUTE	Huawei-User-Multicast-Type		99	integer Huawei
+ATTRIBUTE	Huawei-Reduced-PIR			100	integer Huawei
+ATTRIBUTE	Huawei-LI-ID				101	string Huawei
+ATTRIBUTE	Huawei-LI-Md-Address			102	ipaddr Huawei
+ATTRIBUTE	Huawei-LI-Md-Port			103	integer Huawei
+ATTRIBUTE	Huawei-LI-Md-VpnInstance		104	string Huawei
+ATTRIBUTE	Huawei-Service-Chg-Cmd			105	integer Huawei
+ATTRIBUTE	Huawei-Acct-Packet-Type			106	integer Huawei
+ATTRIBUTE	Huawei-Call-Reference			107	integer Huawei
+ATTRIBUTE	Huawei-PSTN-Port			108	integer Huawei
+ATTRIBUTE	Huawei-Voip-Service-Type		109	integer Huawei
+ATTRIBUTE	Huawei-Acct-Connection-Time		110	integer Huawei
+ATTRIBUTE	Huawei-Error-Reason			112	integer Huawei
+ATTRIBUTE	Huawei-Remain-Monney			113	integer Huawei
+ATTRIBUTE	Huawei-Org-GK-ipaddr			123	ipaddr Huawei
+ATTRIBUTE	Huawei-Org-GW-ipaddr			124	ipaddr Huawei
+ATTRIBUTE	Huawei-Dst-GK-ipaddr			125	ipaddr Huawei
+ATTRIBUTE	Huawei-Dst-GW-ipaddr			126	ipaddr Huawei
+ATTRIBUTE	Huawei-Access-Num			127	string Huawei
+ATTRIBUTE	Huawei-Remain-Time			128	integer Huawei
+ATTRIBUTE	Huawei-Codec-Type			131	integer Huawei
+ATTRIBUTE	Huawei-Transfer-Num			132	string Huawei
+ATTRIBUTE	Huawei-New-User-Name			133	string Huawei
+ATTRIBUTE	Huawei-Transfer-Station-Id		134	string Huawei
+ATTRIBUTE	Huawei-Primary-DNS			135	ipaddr Huawei
+ATTRIBUTE	Huawei-Secondary-DNS			136	ipaddr Huawei
+ATTRIBUTE	Huawei-ONLY-Account-Type		137	integer Huawei
+ATTRIBUTE	Huawei-Domain-Name			138	string Huawei
+ATTRIBUTE	Huawei-ANCP-Profile			139	string Huawei
+ATTRIBUTE	Huawei-HTTP-Redirect-URL		140	string Huawei
+ATTRIBUTE	Huawei-Loopback-Address			141	string Huawei
+ATTRIBUTE	Huawei-QoS-Profile-Type			142	integer Huawei
+ATTRIBUTE	Huawei-HW-Max-List-Num			143	integer Huawei
+ATTRIBUTE	Huawei-Flow-Info			211	string Huawei
+ATTRIBUTE	Huawei-Flow-Id				212	integer Huawei
+ATTRIBUTE	Huawei-DHCP-Server-IP			214	ipaddr Huawei
+ATTRIBUTE	Huawei-Application-Type			215	integer Huawei
+ATTRIBUTE	Huawei-Indication-Flag			216	octets Huawei
+ATTRIBUTE	Huawei-Original_NAS-IP_Address		217	ipaddr Huawei
+ATTRIBUTE	Huawei-User-Priority			218	integer Huawei
+ATTRIBUTE	Huawei-ACS-Url				219	string Huawei
+ATTRIBUTE	Huawei-Provision-Code			220	string Huawei
+ATTRIBUTE	Huawei-Application-Scene		221	octets Huawei
+ATTRIBUTE	Huawei-MS-Maximum-MAC-Study-Number	222	octets Huawei
+ATTRIBUTE	Huawei-Product-ID			255	string Huawei
+ATTRIBUTE   Huawei-Framed-Pool-Group    157 string Huawei
+ATTRIBUTE	Huawei-Account-Info			184	string Huawei
+
+ATTRIBUTE	HW-VPN-Name	239	string Huawei
+ATTRIBUTE	HW-Service-ID	169	string Huawei
+ATTRIBUTE	HW-Service-Name	170	integer Huawei
+
+#
+# Integer translations Huawei
+#
+
+VALUE	Huawei-User-Priority		Common			0
+VALUE	Huawei-User-Priority		Copper			1
+VALUE	Huawei-User-Priority		Silver			2
+VALUE	Huawei-User-Priority		Gold			3
+
+VALUE	Huawei-Application-Type		Fixed			1
+VALUE	Huawei-Application-Type		Nomadic			2
+VALUE	Huawei-Application-Type		Portable		3
+VALUE	Huawei-Application-Type		Simple-Mobile		4
+VALUE	Huawei-Application-Type		Full-Mobile		5
+
+END-VENDOR	Huawei
+

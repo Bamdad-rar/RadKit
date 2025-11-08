@@ -1,0 +1,36 @@
+name: "Simple Mikrotik Session"
+
+config:
+  server: "172.41.0.6"
+  secret: "testing123"
+  vendor: "mikrotik"
+  username: "testuser"
+  password: "test123"
+
+sequence:
+  - command: "auth"
+  
+  - command: "start"
+    delay_before: 1000
+    avps:
+      acct_session_id: "session1"
+      calling_station_id: "AA:BB:CC:DD:EE:FF"
+
+  - command: "alive"
+    delay_before: 1000
+    avps:
+      acct_session_id: "session1"
+      acct_input_octets: 10000000 # 10 MB
+      acct_output_octets: 50000000 # 50 MB
+      acct_session_time: 300
+      calling_station_id: "AA:BB:CC:DD:EE:FF"
+
+  - command: "stop"
+    delay_before: 1000
+    avps:
+      acct_session_id: "session1"
+      acct_input_octets: 20000000
+      acct_output_octets: 100000000
+      acct_session_time: 600
+      acct_terminate_cause: "User-Request"
+      calling_station_id: "AA:BB:CC:DD:EE:FF"

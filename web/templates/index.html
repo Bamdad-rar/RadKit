@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RADIUS Test Client</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- MODERN COMPACT DESIGN --- */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        :root {
+            --font-family: 'Inter', -apple-system, system-ui, sans-serif;
+            --border-radius: 8px;
+            --border-radius-sm: 6px;
+            --spacing: 0.75rem;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --log-height: 280px;
+        }
+
+        /* Enhanced Theme Colors */
+        :root[data-theme="light"] {
+            --primary: #3b82f6;
+            --primary-hover: #2563eb;
+            --primary-focus: rgba(59, 130, 246, 0.1);
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --background: #f8fafc;
+            --surface: #ffffff;
+            --surface-alt: #f1f5f9;
+            --border: #e2e8f0;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --shadow: rgba(0, 0, 0, 0.08);
+            --shadow-lg: rgba(0, 0, 0, 0.12);
+        }
+
+        :root[data-theme="dark"] {
+            --primary: #3b82f6;
+            --primary-hover: #60a5fa;
+            --primary-focus: rgba(59, 130, 246, 0.15);
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --background: #0f172a;
+            --surface: #1e293b;
+            --surface-alt: #334155;
+            --border: #334155;
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --shadow: rgba(0, 0, 0, 0.3);
+            --shadow-lg: rgba(0, 0, 0, 0.5);
+        }
+
+        /* Reset & Base */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { height: 100%; overflow: hidden; }
+        body {
+            background: var(--background);
+            font-family: var(--font-family);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Compact Navbar */
+        nav {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 0.6rem 1.25rem;
+            box-shadow: 0 1px 2px var(--shadow);
+            flex-shrink: 0;
+        }
+        nav ul { margin: 0; padding: 0; }
+        nav .brand {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        nav .brand i { color: var(--primary); font-size: 0.95rem; }
+        
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .theme-toggle, .log-toggle {
+            background: var(--surface-alt);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 0.4rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+        }
+        .theme-toggle:hover, .log-toggle:hover {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.05);
+        }
+        .log-toggle.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Main Container */
+        .app-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            max-width: 1600px;
+            margin: 0 auto;
+            width: 100%;
+            transition: var(--transition);
+        }
+
+        body.log-open .app-container {
+            padding-bottom: calc(var(--log-height) + 1rem);
+        }
+
+        /* Compact Card System */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--border-radius);
+            padding: 0.875rem;
+            box-shadow: 0 1px 3px var(--shadow);
+            transition: var(--transition);
+            height: 100%;
+        }
+        .card:hover {
+            box-shadow: 0 2px 8px var(--shadow-lg);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .card-header i {
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+        .card-header h3 {
+            margin: 0;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text);
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+            flex: 1;
+        }
+
+        /* Compact Grid Layout */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+        }
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+        }
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+        }
+
+        /* Compact Form Elements */
+        input, select, textarea {
+            background: var(--background);
+            border: 1px solid var(--border);
+            border-radius: var(--border-radius-sm);
+            padding: 0.45rem 0.65rem;
+            font-size: 0.8rem;
+            transition: var(--transition);
+            color: var(--text);
+        }
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px var(--primary-focus);
+            outline: none;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.3rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        /* Compact Buttons */
+        button, .btn {
+            padding: 0.5rem 0.75rem;
+            border-radius: var(--border-radius-sm);
+            font-weight: 600;
+            font-size: 0.8rem;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        .btn-primary:hover:not(:disabled) {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+        
+        .btn-secondary {
+            background: var(--surface-alt);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+        .btn-secondary:hover:not(:disabled) {
+            background: var(--border);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+        .btn-sm {
+            padding: 0.35rem 0.6rem;
+            font-size: 0.75rem;
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Compact Sequence Builder */
+        .sequence-actions {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .sequence-actions button {
+            padding: 0.6rem 0.5rem;
+            font-size: 0.75rem;
+            background: var(--surface-alt);
+            border: 1.5px dashed var(--border);
+            color: var(--text);
+        }
+        .sequence-actions button:hover {
+            border-color: var(--primary);
+            border-style: solid;
+            background: var(--primary-focus);
+            color: var(--primary);
+        }
+        .sequence-actions button i {
+            font-size: 0.9rem;
+        }
+
+        /* Compact Sequence List */
+        #sequence-list {
+            list-style: none;
+            padding: 0;
+            min-height: 180px;
+            max-height: 320px;
+            overflow-y: auto;
+            background: var(--background);
+            border: 1.5px dashed var(--border);
+            border-radius: var(--border-radius-sm);
+            padding: 0.4rem;
+        }
+        #sequence-list:empty::before {
+            content: 'Add steps above';
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 160px;
+            color: var(--text-muted);
+            font-style: italic;
+            font-size: 0.8rem;
+        }
+        #sequence-list li {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--border-radius-sm);
+            padding: 0.5rem 0.6rem;
+            margin-bottom: 0.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: move;
+            transition: var(--transition);
+        }
+        #sequence-list li:hover {
+            border-color: var(--primary);
+            box-shadow: 0 1px 4px var(--shadow);
+        }
+        #sequence-list li .step-info {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            flex: 1;
+        }
+        #sequence-list li .step-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--primary-focus);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+        }
+        #sequence-list li .step-name {
+            font-weight: 600;
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+        #sequence-list li .step-name:hover {
+            color: var(--primary);
+        }
+        #sequence-list li .step-actions {
+            display: flex;
+            gap: 0.2rem;
+        }
+        #sequence-list li .step-btn {
+            width: 26px;
+            height: 26px;
+            border-radius: 5px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            color: var(--text-muted);
+            font-size: 0.75rem;
+        }
+        #sequence-list li .step-btn:hover {
+            background: var(--danger);
+            color: white;
+        }
+        #sequence-list li .step-btn.preview-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Compact AVP Fields */
+        .avp-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.6rem;
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 0.2rem;
+        }
+        .avp-field {
+            display: flex;
+            flex-direction: column;
+        }
+        .avp-field label {
+            margin-bottom: 0.25rem;
+            font-size: 0.72rem;
+        }
+        .avp-field input {
+            padding: 0.4rem 0.55rem;
+            font-size: 0.75rem;
+        }
+
+        /* COMPACT BOTTOM LOG DRAWER */
+        .log-drawer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: var(--log-height);
+            background: #0a0f1e;
+            border-top: 1px solid #1e293b;
+            box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.4);
+            transform: translateY(100%);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body.log-open .log-drawer {
+            transform: translateY(0);
+        }
+
+        .log-drawer-header {
+            background: #151d2e;
+            padding: 0.5rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #1e293b;
+            flex-shrink: 0;
+        }
+
+        .log-drawer-header h3 {
+            margin: 0;
+            font-size: 0.8rem;
+            color: #cbd5e1;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+        }
+
+        .log-drawer-header h3 i {
+            font-size: 0.75rem;
+            color: var(--primary);
+        }
+
+        .log-controls {
+            display: flex;
+            gap: 0.35rem;
+        }
+
+        .log-controls .btn-sm {
+            padding: 0.3rem 0.5rem;
+        }
+
+        #output-log {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0.75rem 1rem;
+            font-family: 'SF Mono', 'Consolas', 'Monaco', monospace;
+            font-size: 0.8rem;
+            line-height: 1.5;
+            color: #f1f5f9;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            margin: 0;
+        }
+
+        /* Modal */
+        dialog {
+            border: none;
+            border-radius: var(--border-radius);
+            padding: 0;
+            max-width: 700px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        dialog::backdrop {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+        }
+        dialog .modal-header {
+            padding: 0.875rem 1rem;
+            background: var(--surface-alt);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        dialog .modal-header h3 {
+            margin: 0;
+            font-size: 0.9rem;
+        }
+        dialog .modal-body {
+            padding: 1rem;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+        #packet-preview {
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 0.875rem;
+            border-radius: var(--border-radius-sm);
+            font-family: 'SF Mono', 'Consolas', monospace;
+            font-size: 0.75rem;
+            line-height: 1.5;
+            white-space: pre-wrap;
+        }
+
+        /* Toast Notifications */
+        .toast {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--border-radius-sm);
+            padding: 0.75rem 1rem;
+            box-shadow: 0 4px 12px var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            min-width: 280px;
+            animation: slideIn 0.3s ease-out;
+            z-index: 1000;
+            font-size: 0.85rem;
+        }
+        
+        body.log-open .toast {
+            bottom: calc(var(--log-height) + 1.5rem);
+        }
+        
+        .toast.success { border-left: 3px solid var(--success); }
+        .toast.error { border-left: 3px solid var(--danger); }
+        .toast.warning { border-left: 3px solid var(--warning); }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Compact Preset Section */
+        .preset-section {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .preset-section select {
+            flex: 1;
+        }
+
+        /* Status Badges */
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .status-accept { background: var(--success); color: white; }
+        .status-reject { background: var(--danger); color: white; }
+        .status-challenge { background: var(--warning); color: white; }
+        .status-accounting { background: var(--primary); color: white; }
+
+        /* Packet History */
+        #packet-history {
+            min-height: 100px;
+        }
+
+        /* Section Margins */
+        .mb-sm { margin-bottom: 0.5rem; }
+        .mb-md { margin-bottom: 0.75rem; }
+        .mt-sm { margin-top: 0.5rem; }
+        .mt-md { margin-top: 0.75rem; }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .grid-2, .grid-3, .grid-4, .sequence-actions, .avp-grid {
+                grid-template-columns: 1fr;
+            }
+            .app-container {
+                padding: 0.75rem;
+            }
+            :root {
+                --log-height: 250px;
+            }
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-muted);
+        }
+
+        #output-log::-webkit-scrollbar-thumb {
+            background: #334155;
+        }
+        #output-log::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="container-fluid">
+        <ul>
+            <li>
+                <a href="#" class="brand">
+                    <i class="fas fa-broadcast-tower"></i>
+                    <strong>RADIUS Test Client</strong>
+                </a>
+            </li>
+        </ul>
+        <ul>
+            <li>
+                <div class="nav-actions">
+                    <a href="#" class="log-toggle" id="log-toggle" title="Toggle output log (Ctrl+L)">
+                        <i class="fas fa-terminal"></i>
+                    </a>
+                    <a href="#" class="theme-toggle" id="theme-toggle" title="Toggle theme">
+                        <i class="fas fa-moon"></i>
+                    </a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="app-container">
+        <div class="grid-2">
+            <!-- Left Column - Configuration -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-cog"></i>
+                    <h3>Configuration</h3>
+                </div>
+
+                <div class="grid-2 mb-sm">
+                    <div>
+                        <label>RADIUS Server</label>
+                        <input type="text" id="radius-server" value="127.0.0.1" placeholder="IP or hostname">
+                    </div>
+                    <div>
+                        <label>RADIUS Secret</label>
+                        <input type="password" id="radius-secret" value="secret" placeholder="Shared secret">
+                    </div>
+                </div>
+
+                <div class="grid-2 mb-sm">
+                    <div>
+                        <label>Username</label>
+                        <input type="text" id="username" value="testuser" placeholder="Username">
+                    </div>
+                    <div>
+                        <label>Password</label>
+                        <input type="password" id="password" value="testpass" placeholder="Password">
+                    </div>
+                </div>
+
+                <div class="mb-md">
+                    <button class="btn-secondary btn-sm" id="test-connection-btn" style="width: 100%;">
+                        <i class="fas fa-plug"></i>
+                        Test Connection
+                    </button>
+                </div>
+
+                <div class="mb-md">
+                    <label>Vendor</label>
+                    <select id="vendor-select">
+                        <option value="mikrotik">Mikrotik</option>
+                        <option value="cisco">Cisco</option>
+                        <option value="fortigate">FortiGate</option>
+                    </select>
+                </div>
+
+                <div class="grid-2 mb-md" style="gap: 0.5rem;">
+                    <button class="btn-secondary btn-sm" id="import-config-btn">
+                        <i class="fas fa-upload"></i>
+                        Import Config
+                    </button>
+                    <button class="btn-secondary btn-sm" id="export-config-btn">
+                        <i class="fas fa-download"></i>
+                        Export Config
+                    </button>
+                </div>
+
+                <div class="card-header" style="margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--border); border-bottom: none; margin-bottom: 0.5rem;">
+                    <i class="fas fa-list"></i>
+                    <h3>Attribute-Value Pairs</h3>
+                </div>
+                <div class="avp-grid" id="avp-container">
+                    <progress></progress>
+                </div>
+            </div>
+
+            <!-- Right Column - Sequence Builder -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-tasks"></i>
+                    <h3>Sequence Builder</h3>
+                </div>
+
+                <div class="preset-section">
+                    <select id="preset-select">
+                        <option value="">-- Load Preset --</option>
+                        <option value="basic-auth">Basic Auth Test</option>
+                        <option value="full-session">Full Session Flow</option>
+                        <option value="accounting-only">Accounting Only</option>
+                    </select>
+                    <button class="btn-secondary btn-sm" id="save-preset-btn">
+                        <i class="fas fa-save"></i> Save
+                    </button>
+                </div>
+
+                <div class="sequence-actions">
+                    <button data-command="auth">
+                        <i class="fas fa-key"></i>
+                        <div>Auth</div>
+                    </button>
+                    <button data-command="start">
+                        <i class="fas fa-play"></i>
+                        <div>Start</div>
+                    </button>
+                    <button data-command="alive">
+                        <i class="fas fa-heartbeat"></i>
+                        <div>Alive</div>
+                    </button>
+                    <button data-command="stop">
+                        <i class="fas fa-stop"></i>
+                        <div>Stop</div>
+                    </button>
+                </div>
+
+                <ul id="sequence-list"></ul>
+
+                <div class="grid-2 mt-md">
+                    <button class="btn-primary" id="execute-btn">
+                        <i class="fas fa-play-circle"></i>
+                        Execute Sequence
+                    </button>
+                    <button class="btn-secondary" id="clear-sequence-btn">
+                        <i class="fas fa-trash"></i>
+                        Clear
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Full Width Packet History -->
+        <div class="card" style="margin-top: 0.75rem;">
+            <div class="card-header">
+                <i class="fas fa-history"></i>
+                <h3>Packet History</h3>
+                <button class="btn-sm btn-secondary" id="clear-history-btn">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+            <div id="packet-history" style="max-height: 250px; overflow-y: auto;">
+                <p style="text-align: center; color: var(--text-muted); font-size: 0.8rem; padding: 2rem;">
+                    No packets yet. Execute a sequence to see history.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Log Drawer -->
+    <div class="log-drawer">
+        <div class="log-drawer-header">
+            <h3>
+                <i class="fas fa-terminal"></i>
+                Output Log
+            </h3>
+            <div class="log-controls">
+                <button class="btn-secondary btn-sm" id="copy-log-btn" title="Copy log">
+                    <i class="fas fa-copy"></i>
+                </button>
+                <button class="btn-secondary btn-sm" id="export-log-btn" title="Export log">
+                    <i class="fas fa-download"></i>
+                </button>
+                <button class="btn-secondary btn-sm" id="clear-log-btn" title="Clear log (Ctrl+K)">
+                    <i class="fas fa-eraser"></i>
+                </button>
+                <button class="btn-secondary btn-sm" id="close-log-btn" title="Close log">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        <pre id="output-log"></pre>
+    </div>
+
+    <!-- Packet Preview Modal -->
+    <dialog id="packet-modal">
+        <div class="modal-header">
+            <h3><i class="fas fa-file-code"></i> Packet Preview</h3>
+            <button class="btn-secondary btn-sm close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <pre id="packet-preview">Loading...</pre>
+        </div>
+    </dialog>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
