@@ -1,8 +1,8 @@
 import logging
 import time
 from flask import Flask, jsonify, render_template, request
-from . import get_radius_client
-from .base_client import RadiusClientError
+from core.radius_clients import get_radius_client
+from core.radius_clients.base_client import RadiusClientError
 from pyrad.packet import Packet
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
